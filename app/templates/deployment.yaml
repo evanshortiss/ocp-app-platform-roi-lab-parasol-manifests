@@ -23,7 +23,7 @@ spec:
         - name: parasol-insurance
           image: "{{ .Values.registry.host }}/parasol/parasol-insurance:{{ .Values.image.tag }}"
           ports:
-            - containerPort: 8005
+            - containerPort: 8080
               protocol: TCP
           env:
             - name: QUARKUS_LANGCHAIN4J_OPENAI_BASE_URL
@@ -36,6 +36,23 @@ spec:
                 secretKeyRef:
                   name: litellm-credentials
                   key: api_key
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: parasol-db
+                  key: database-user
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: parasol-db
+                  key: database-password
+            - name: POSTGRESQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: parasol-db
+                  key: database-name
+            - name: POSTGRESQL_HOST
+              value: parasol-db
           resources:
             requests:
               cpu: 250m
@@ -45,12 +62,12 @@ spec:
           readinessProbe:
             httpGet:
               path: /q/health/ready
-              port: 8005
+              port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /q/health/live
-              port: 8005
+              port: 8080
             initialDelaySeconds: 15
             periodSeconds: 20
