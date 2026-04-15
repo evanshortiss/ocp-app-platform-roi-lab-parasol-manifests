@@ -29,7 +29,7 @@ spec:
         GITLAB_TOKEN=$(cat /secrets/gitlab-token/token)
         GITLAB_HOST=$(params.GITLAB_HOST)
         IMAGE_TAG=$(params.IMAGE_TAG)
-        MANIFESTS_REPO="https://root:${GITLAB_TOKEN}@${GITLAB_HOST}/parasol/parasol-insurance-manifests.git"
+        MANIFESTS_REPO="https://root:${GITLAB_TOKEN}@${GITLAB_HOST}/{{ .Values.tenant.username }}/parasol-insurance-manifests.git"
 
         git config --global user.email "tekton@parasol-insurance.local"
         git config --global user.name "Tekton Pipeline"
@@ -57,4 +57,4 @@ spec:
           --data-urlencode "source_branch=${BRANCH}" \
           --data-urlencode "target_branch=main" \
           --data-urlencode "title=Promote ${IMAGE_TAG} to production" \
-          "https://${GITLAB_HOST}/api/v4/projects/parasol%2Fparasol-insurance-manifests/merge_requests"
+          "https://${GITLAB_HOST}/api/v4/projects/{{ .Values.tenant.username }}%2Fparasol-insurance-manifests/merge_requests"

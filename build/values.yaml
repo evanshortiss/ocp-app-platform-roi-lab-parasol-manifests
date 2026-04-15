@@ -1,4 +1,8 @@
 namespace: parasol-insurance-build
+devNamespace: parasol-insurance-dev
+
+tenant:
+  username: parasol
 
 gitlab:
   host: ""

@@ -26,7 +26,7 @@ spec:
             value: openshift-pipelines
       params:
         - name: URL
-          value: "https://{{ .Values.gitlab.host }}/parasol/parasol-insurance.git"
+          value: "https://{{ .Values.gitlab.host }}/{{ .Values.tenant.username }}/parasol-insurance.git"
         - name: REVISION
           value: $(params.git-revision)
         - name: SSL_VERIFY
@@ -100,4 +100,4 @@ spec:
         - name: DEPLOYMENT
           value: parasol-insurance
         - name: NAMESPACE
-          value: parasol-insurance-dev
+          value: {{ .Values.devNamespace }}
